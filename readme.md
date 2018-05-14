@@ -15,5 +15,6 @@ Yet another URL shortener, this time using Laravel.
 ```bash
 git clone https://github.com/CodeNegar/url-shortener.git
 cd url-shortener && composer install
+php artisan key:generate
 php artisan serve
 ```
