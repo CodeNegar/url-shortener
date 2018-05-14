@@ -7,5 +7,46 @@ use Illuminate\Http\Request;
 
 class UrlController extends Controller
 {
-    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\url  $url
+     * @return \Illuminate\Http\Response
+     */
+    public function show(url $url)
+    {
+        //
+    }
+
+    /**
+     * Show the stats for requested resource.
+     *
+     * @param  \App\url  $url
+     * @return \Illuminate\Http\Response
+     */
+    public function stats(url $url)
+    {
+        //
+    }
 }
