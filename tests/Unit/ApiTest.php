@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Url;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -53,5 +54,21 @@ class ApiTest extends TestCase
             ->assertJson([
                 'message' => 'URL successfuly shortened.'
             ]);
+    }
+
+    /** @test */
+
+    public function it_should_create_a_db_record_when_longurl_parameter_contains_a_valid_url()
+    {
+        // Given the urls table is empty
+        $this->assertEquals(0, Url::count());
+
+        // When sending an api call with correct fields
+        $this->withHeaders([
+            'X-Header' => 'test',
+        ])->json('POST', '/api/store', ['longurl' => 'http://example.com']);
+
+        // Then urls table should contain one record
+        $this->assertEquals(1, Url::count());
     }
 }

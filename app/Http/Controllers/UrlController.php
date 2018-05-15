@@ -27,11 +27,14 @@ class UrlController extends Controller
     public function store(PrepareShortenRequest $request)
     {
         $url = new Url();
+        $url->url = $request->longurl;
+        $url->save();
+
         return [
             'message' => 'URL successfuly shortened.',
             'data'   => [
-                'url' => 'http://short.com/abc/go',
-                'stats' => 'http://short.com/abc/stats',
+                'url' => url('go', $url->id),
+                'stats' => url('stats', $url->id)
             ]
         ];
     }
