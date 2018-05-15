@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PrepareShortenRequest;
 use App\Url;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class UrlController extends Controller
 {
@@ -33,8 +34,8 @@ class UrlController extends Controller
         return [
             'message' => 'URL successfuly shortened.',
             'data'   => [
-                'url' => url('go', $url->id),
-                'stats' => url('stats', $url->id)
+                'url' => route('go', $url->id),
+                'stats' => route('stats', $url->id)
             ]
         ];
     }
@@ -45,7 +46,7 @@ class UrlController extends Controller
      * @param  \App\Url  $url
      * @return \Illuminate\Http\Response
      */
-    public function show(url $url)
+    public function show(Url $url)
     {
         //
     }
@@ -56,7 +57,7 @@ class UrlController extends Controller
      * @param  \App\Url  $url
      * @return \Illuminate\Http\Response
      */
-    public function stats(url $url)
+    public function stats(Url $url)
     {
         //
     }
