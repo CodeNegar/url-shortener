@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PrepareShortenRequest;
 use App\url;
 use Illuminate\Http\Request;
 
@@ -20,17 +21,16 @@ class UrlController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\PrepareShortenRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PrepareShortenRequest $request)
     {
         return [
-            'status' => 'success',
+            'message' => 'URL successfuly shortened.',
             'data'   => [
                 'url' => 'http://short.com/abc/go',
                 'stats' => 'http://short.com/abc/stats',
-                'message' => 'URL successfuly shortened.'
             ]
         ];
     }
