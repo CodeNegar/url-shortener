@@ -4,5 +4,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/{url}/go', 'UrlController@show');
-Route::get('/{url}/stats', 'UrlController@show');
+Route::get('/{url}/go', 'UrlController@show')->name('go');;
+Route::get('/{url}/stats', 'UrlController@show')->name('stats');;
