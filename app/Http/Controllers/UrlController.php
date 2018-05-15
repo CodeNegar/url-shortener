@@ -25,7 +25,14 @@ class UrlController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return [
+            'status' => 'success',
+            'data'   => [
+                'url' => 'http://short.com/abc/go',
+                'stats' => 'http://short.com/abc/stats',
+                'message' => 'URL successfuly shortened.'
+            ]
+        ];
     }
 
     /**
