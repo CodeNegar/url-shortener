@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class url extends Model
+class Url extends Model
 {
     /**
      * List of allowed fields for filling

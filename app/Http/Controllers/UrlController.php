@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PrepareShortenRequest;
-use App\url;
+use App\Url;
 use Illuminate\Http\Request;
 
 class UrlController extends Controller
@@ -26,6 +26,7 @@ class UrlController extends Controller
      */
     public function store(PrepareShortenRequest $request)
     {
+        $url = new Url();
         return [
             'message' => 'URL successfuly shortened.',
             'data'   => [
@@ -38,7 +39,7 @@ class UrlController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\url  $url
+     * @param  \App\Url  $url
      * @return \Illuminate\Http\Response
      */
     public function show(url $url)
@@ -49,7 +50,7 @@ class UrlController extends Controller
     /**
      * Show the stats for requested resource.
      *
-     * @param  \App\url  $url
+     * @param  \App\Url  $url
      * @return \Illuminate\Http\Response
      */
     public function stats(url $url)
