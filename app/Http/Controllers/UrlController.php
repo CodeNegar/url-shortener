@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UrlWasVisited;
 use App\Http\Requests\PrepareShortenRequest;
 use App\Url;
 use Illuminate\Http\Request;
@@ -48,7 +49,7 @@ class UrlController extends Controller
      */
     public function show(Url $url)
     {
-        //
+        return Redirect::away($url->url);
     }
 
     /**

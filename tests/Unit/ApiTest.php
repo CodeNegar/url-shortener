@@ -71,4 +71,35 @@ class ApiTest extends TestCase
         // Then urls table should contain one record
         $this->assertEquals(1, Url::count());
     }
+
+    /** @test */
+
+    public function it_should_return_redirect_response_when_a_short_url_is_accessed()
+    {
+        // Given the urls table has a record
+        $row = factory(\App\Url::class)->create();
+        $row->toArray();
+
+        // When the short url is accessed
+        $url = route('go', $row->id);
+        $response = $this->get($url);
+
+        // Then it should return a temporary redirect (302)
+        $response->assertStatus(302);
+    }
+
+    /** @test */
+
+    public function it_should_return_not_found_response_when_a_short_url_with_bad_id_is_accessed()
+    {
+        // Given the urls table has no record
+        Url::truncate();
+
+        // When a short url with bad id is accessed
+        $url = route('go', 1);
+        $response = $this->get($url);
+
+        // Then it should return not found response (404)
+        $response->assertStatus(404);
+    }
 }
