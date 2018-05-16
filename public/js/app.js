@@ -11,6 +11,7 @@ jQuery(document).ready(function($) {
 		$button_shorten.addClass('progress-bar-striped progress-bar-animated');
 		$button_shorten.prop('disabled', true)
 		$input_shorten.prop('readonly', true);
+		$response_shorten.fadeOut('fast');
 
 		$.ajax({
 			url: 'api/store',
@@ -26,7 +27,7 @@ jQuery(document).ready(function($) {
 		})
 		.fail(function(xhr, status, error) {
 			var res = JSON.parse(xhr.responseText);
-            $response_shorten.html(res.message).fadeIn();
+            $response_shorten.html(res.message).fadeIn('fast');
 		})
 		.always(function() {
 			// Remove loading state from the form
