@@ -12,4 +12,12 @@ class Url extends Model
     protected $fillable = [
         'url'
     ];
+
+    /**
+     * Get the visits for the current url.
+     */
+    public function visits()
+    {
+        return $this->hasMany('App\Visit');
+    }
 }
