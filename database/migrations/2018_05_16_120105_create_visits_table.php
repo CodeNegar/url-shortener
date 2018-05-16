@@ -25,7 +25,7 @@ class CreateVisitsTable extends Migration
             $table->string('ip', 32);
             $table->string('country', 32)->nullable();;
             $table->string('user_agent', 256)->nullable();;
-            $table->boolean('is_bot');
+            $table->boolean('is_bot')->default(0);
         });
     }
 
