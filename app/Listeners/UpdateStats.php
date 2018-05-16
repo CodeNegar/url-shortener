@@ -26,6 +26,6 @@ class UpdateStats
      */
     public function handle(UrlWasVisited $event)
     {
-        //
+        $event->url->increment('visits');
     }
 }
