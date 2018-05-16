@@ -47,9 +47,9 @@ class UrlController extends Controller
      * @param  \App\Url  $url
      * @return \Illuminate\Http\Response
      */
-    public function show(Url $url)
+    public function show(Url $url, Request $request)
     {
-        event(new UrlWasVisited($url));
+        event(new UrlWasVisited($url, $request));
         return Redirect::away($url->url);
     }
 

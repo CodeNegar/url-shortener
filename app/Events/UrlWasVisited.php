@@ -4,6 +4,7 @@ namespace App\Events;
 
 use App\Url;
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Http\Request;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -14,6 +15,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class UrlWasVisited
 {
     public $url;
+    public $request;
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
@@ -22,9 +24,10 @@ class UrlWasVisited
      * @param  \App\Url  $url
      * @return void
      */
-    public function __construct(Url $url)
+    public function __construct(Url $url, Request $request)
     {
         $this->url = $url;
+        $this->request = $request;
     }
 
     /**
