@@ -49,6 +49,7 @@ class UrlController extends Controller
      */
     public function show(Url $url)
     {
+        event(new UrlWasVisited($url));
         return Redirect::away($url->url);
     }
 
