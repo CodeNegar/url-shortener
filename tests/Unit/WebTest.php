@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Url;
+use App\Visit;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -29,5 +30,29 @@ class WebTest extends TestCase
         // Then number of hits should be increased by 1
         $updated_url = Url::find($row->id);
         $this->assertEquals(1, $updated_url->hits);
+    }
+
+    /** @test */
+
+    public function it_should_save_visit_details_when_a_short_url_is_accessed()
+    {
+        // Given the urls table has a record
+        $row = factory(\App\Url::class)->create([
+            'hits' => 0
+        ]);
+
+        $row->toArray();
+
+        // When the short url is accessed using Firefox on Windows user agent
+        $url = route('go', $row->id);
+
+        $response = $this->withHeaders([
+            'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0',
+        ])->get($url);
+
+        // Then visit details should be inserted with firefox and windows
+        $visit_log = Visit::where('url_id', $row->id)->first();
+        $this->assertContains('Firefox', $visit_log->client_name);
+        $this->assertContains('Windows', $visit_log->os);
     }
 }
