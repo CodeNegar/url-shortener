@@ -13,7 +13,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class UrlWasVisited
 {
-    protected $url;
+    public $url;
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
