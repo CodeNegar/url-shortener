@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Events\UrlWasVisited;
 use App\Http\Requests\PrepareShortenRequest;
 use App\Url;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class UrlController extends Controller
@@ -61,6 +63,11 @@ class UrlController extends Controller
      */
     public function stats(Url $url)
     {
-        //
+        $periods = [
+            'day' => Carbon::now()->startOfDay(),
+            'week' => Carbon::now()->startOfWeek(),
+            'month' => Carbon::now()->startOfMonth(),
+            'all' => Carbon::now()->startOfCentury(),
+        ];
     }
 }
