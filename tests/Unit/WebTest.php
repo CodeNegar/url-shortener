@@ -2,8 +2,10 @@
 
 namespace Tests\Unit;
 
+use App\Http\Controllers\UrlController;
 use App\Url;
 use App\Visit;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -54,5 +56,50 @@ class WebTest extends TestCase
         $visit_log = Visit::where('url_id', $row->id)->first();
         $this->assertContains('Firefox', $visit_log->client_name);
         $this->assertContains('Windows', $visit_log->os);
+    }
+    /** @test */
+
+    public function it_should_give_correct_hit_count_for_each_time_period()
+    {
+        // Given the urls table has a record
+        $url_row = factory(\App\Url::class)->create([
+            'hits' => 0
+        ]);
+
+        // Mock current time, Thursday
+        Carbon::setTestNow(Carbon::create(2018, 5, 17, 10, 45, 4));
+
+        // Three visits today
+        $row = factory(\App\Visit::class, 3)->create([
+            'created_at' => Carbon::now()->startOfDay()->addSeconds(rand(100, 86000)),
+            'url_id' => $url_row->id
+        ]);
+
+        // two visits yesterday
+        $row = factory(\App\Visit::class, 2)->create([
+            'created_at' => Carbon::now()->startOfDay()->subDays(1)->addSeconds(rand(100, 80000)),
+            'url_id' => $url_row->id
+        ]);
+
+        // four visits 9 days ago
+        $row = factory(\App\Visit::class, 4)->create([
+            'created_at' => Carbon::now()->startOfDay()->subDays(9)->addSeconds(rand(100, 80000)),
+            'url_id' => $url_row->id
+        ]);
+
+        // seven visits 45 days ago
+        $row = factory(\App\Visit::class, 7)->create([
+            'created_at' => Carbon::now()->startOfDay()->subDays(45)->addSeconds(rand(100, 80000)),
+            'url_id' => $url_row->id
+        ]);
+
+        // Then visit details should be: day: 3, week: 5, month: 9, all: 16
+        $urlController = new UrlController();
+        $stats = $urlController->stats($url_row);
+
+        $this->assertEquals(3,  $stats['day']['hits']);
+        $this->assertEquals(5,  $stats['week']['hits']);
+        $this->assertEquals(9,  $stats['month']['hits']);
+        $this->assertEquals(16,  $stats['all']['hits']);
     }
 }

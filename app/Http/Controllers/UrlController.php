@@ -69,5 +69,18 @@ class UrlController extends Controller
             'month' => Carbon::now()->startOfMonth(),
             'all' => Carbon::now()->startOfCentury(),
         ];
+
+        $stats = [];
+
+        // Count visits for each period
+        foreach ($periods as $period_name => $period_value) {
+            $hits = $url->visits()
+                ->where('created_at', '>=', $period_value)
+                ->count();
+
+            $stats[$period_name]['hits'] = $hits;
+        }
+
+        return $stats;
     }
 }
