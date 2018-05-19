@@ -63,11 +63,22 @@ class UrlController extends Controller
      */
     public function stats(Url $url)
     {
+        // todo: cache results and create rollup tables
         $periods = [
             'day' => Carbon::now()->startOfDay(),
             'week' => Carbon::now()->startOfWeek(),
             'month' => Carbon::now()->startOfMonth(),
             'all' => Carbon::now()->startOfCentury(),
+        ];
+
+        $metrics = [
+            'os',
+            'client_type',
+            'client_name',
+            'device',
+            'referrer',
+            'country',
+            'is_bot'
         ];
 
         $stats = [];
@@ -79,6 +90,25 @@ class UrlController extends Controller
                 ->count();
 
             $stats[$period_name]['hits'] = $hits;
+        }
+
+        foreach ($metrics as $metric) {
+            foreach ($periods as $period_name => $period_value) {
+                $metric_rows = $url->visits()
+                    ->groupBy([$metric])
+                    ->orderBy('count', 'desc')
+                    ->take(10)
+                    ->where('created_at', '>=', $period_value)
+                    ->get([$metric, DB::raw("count(*) as count")]);
+                $os_list = [];
+                foreach ($metric_rows as $metric_row) {
+                    $key = empty($metric_row[$metric]) ? 'unknown' : $metric_row[$metric];
+                    $value = (int) $metric_row['count'];
+                    $os_list[$key] = $value;
+                }
+
+                $stats[$period_name][$metric] = $os_list;
+            }
         }
 
         return $stats;
