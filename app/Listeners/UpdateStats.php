@@ -30,6 +30,7 @@ class UpdateStats
      */
     public function handle(UrlWasVisited $event)
     {
+        // todo: queue the event to speedup redirecting
         // Update number of hits
         $event->url->increment('hits');
 
