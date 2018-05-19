@@ -36,6 +36,8 @@ class UpdateStats
 
         // Save details of the visit
         $user_agent = $event->request->header('User-Agent');
+        $geo_data = geoip();
+        $country = $geo_data->country ?? '';
         $dd = new DeviceDetector($user_agent);
         $dd->parse();
 
@@ -48,7 +50,7 @@ class UpdateStats
         $visit->device = $dd->getDeviceName();
         $visit->referrer = $event->request->server('HTTP_REFERER');
         $visit->ip = $event->request->ip();
-        $visit->country = ''; // todo: use a geo ip library
+        $visit->country = $country;
         $visit->user_agent = $user_agent;
         $visit->is_bot = $dd->isBot();
 
