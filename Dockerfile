@@ -9,4 +9,6 @@ Run docker-php-ext-install mbstring pdo_mysql curl json intl gd xml zip bz2 opca
 COPY /public /var/www/html/
 COPY / /var/www/
 
+RUN chown -R www-data:www-data /var/www/
+
 EXPOSE 80
