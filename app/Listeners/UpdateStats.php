@@ -36,7 +36,7 @@ class UpdateStats
 
         // Save details of the visit
         $user_agent = $event->request->header('User-Agent');
-        $ip = $this->get_real_ip();
+        $ip = $this->get_real_ip() ?? $event->request->ip();
         $geo_data = geoip($ip);
         $country = $geo_data->country ?? '';
         $dd = new DeviceDetector($user_agent);
