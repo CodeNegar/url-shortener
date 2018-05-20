@@ -19,7 +19,14 @@ class UrlController extends Controller
      */
     public function index()
     {
-        //
+        // todo: cache the results
+        $urls = Url::take(10)->get(['id', 'hits']);
+        foreach ($urls as $url){
+            $url->short_link = route('go', $url->id);
+            unset($url->id);
+        }
+
+        return $urls;
     }
 
     /**
