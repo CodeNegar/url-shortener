@@ -14,9 +14,10 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class UrlWasVisited
 {
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
     public $url;
     public $request;
-    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.

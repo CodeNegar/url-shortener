@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Url;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -14,14 +15,17 @@ class UrlWasCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $url;
+
     /**
      * Create a new event instance.
      *
+     * @param  \App\Url  $url
      * @return void
      */
-    public function __construct()
+    public function __construct(Url $url)
     {
-        //
+        $this->url = $url;
     }
 
     /**

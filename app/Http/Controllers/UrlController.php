@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UrlWasCreated;
 use App\Events\UrlWasVisited;
 use App\Http\Requests\PrepareShortenRequest;
 use App\Url;
@@ -40,6 +41,8 @@ class UrlController extends Controller
         $url = new Url();
         $url->url = $request->longurl;
         $url->save();
+
+        event(new UrlWasCreated($url));
 
         return [
             'message' => 'URL successfuly shortened.',
