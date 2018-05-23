@@ -22,7 +22,7 @@ class UrlController extends Controller
         // todo: cache the results
         $urls = Url::take(10)->get(['id', 'hits']);
         foreach ($urls as $url){
-            $url->short_link = route('go', $url->id);
+            $url->short_url = route('go', $url->id);
             unset($url->id);
         }
 
@@ -44,7 +44,7 @@ class UrlController extends Controller
         return [
             'message' => 'URL successfuly shortened.',
             'data'   => [
-                'url' => route('go', $url->id),
+                'short_url' => route('go', $url->id),
                 'stats' => route('stats', $url->id)
             ]
         ];
