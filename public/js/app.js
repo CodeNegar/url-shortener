@@ -23,7 +23,7 @@ jQuery(document).ready(function($) {
 		})
 		.done(function(res) {
 			$input_shorten.val('');
-			$response_shorten.html(res.message + '<br>' + res.data.url + '<br>' + res.data.stats).fadeIn();
+			$response_shorten.html(res.message + '<br>' + res.data.short_url + '<br>' + res.data.stats).fadeIn();
 		})
 		.fail(function(xhr, status, error) {
 			var res = JSON.parse(xhr.responseText);
