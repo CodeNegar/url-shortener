@@ -45,6 +45,7 @@ class ApiTest extends TestCase
 
     public function it_should_return_ok_when_longurl_parameter_contains_a_valid_url()
     {
+        $this->withoutEvents();
         $response = $this->withHeaders([
             'X-Header' => 'test',
         ])->json('POST', '/api/store', ['longurl' => 'http://example.com']);
