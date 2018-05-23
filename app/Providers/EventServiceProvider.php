@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UrlWasVisited' => [
             'App\Listeners\UpdateStats',
         ],
+        'App\Events\UrlWasCreated' => [
+            'App\Listeners\GetUrlDetails',
+        ],
     ];
 
     /**
