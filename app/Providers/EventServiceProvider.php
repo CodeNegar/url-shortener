@@ -20,7 +20,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\UpdateStats',
         ],
         'App\Events\UrlWasCreated' => [
-            'App\Listeners\GetUrlDetails',
+            'App\Listeners\UpdateUrlDetails',
         ],
     ];
 
