@@ -2,13 +2,14 @@
 
 namespace Tests\Unit;
 
+use App\Events\UrlWasCreated;
 use App\Http\Controllers\UrlController;
+use App\Listeners\UpdateUrlDetails;
 use App\Url;
 use App\Visit;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class WebTest extends TestCase
 {
@@ -198,6 +199,40 @@ class WebTest extends TestCase
         $this->assertEquals(3,  $stats['all']['client_name']['Internet Explorer']);
         $this->assertEquals(3,  $stats['all']['client_name']['Microsoft Edge']);
         $this->assertEquals(2,  $stats['all']['client_name']['Chrome']);
+    }
 
+
+    /** @test */
+
+    public function it_should_set_fetch_url_title_and_save_once_it_is_fired()
+    {
+        $this->withoutEvents();
+
+        // Given the urls table has a record
+        $long_url = 'http://site.com';
+        $url = factory(\App\Url::class)->create([
+            'url' => $long_url
+        ]);
+
+        // Create a stub for the SomeClass class.
+        $UpdateUrlDetailsStub = $this
+            ->getMockBuilder(UpdateUrlDetails::class)
+            ->setMethods(['get_url'])
+            ->getMock();
+
+        // Configure the stub.
+        $UpdateUrlDetailsStub->method('get_url')
+            ->willReturn(
+            '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>URL Shortener document</title></head><body>Content of the document......</body></html>'
+            );
+
+        // When UrlWasCreated event is fired for that record
+        $event = new UrlWasCreated($url);
+
+        $UpdateUrlDetailsStub->handle($event);
+
+        // Then the row should have a title of sample HTML document
+        $url->fresh();
+        $this->assertEquals('URL Shortener document', $url->title);
     }
 }
