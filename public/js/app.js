@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
 		$response_shorten.fadeOut('fast');
 
 		$.ajax({
-			url: 'api/store',
+			url: 'api/urls',
 			type: 'POST',
 			dataType: 'json',
 			data: {

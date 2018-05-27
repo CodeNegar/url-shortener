@@ -17,7 +17,7 @@ class ApiTest extends TestCase
     {
         $response = $this->withHeaders([
             'X-Header' => 'test',
-        ])->json('POST', '/api/store', ['bad_field' => 'http://test.com']);
+        ])->json('POST', '/api/urls', ['bad_field' => 'http://test.com']);
 
         $response
             ->assertStatus(422)
@@ -32,7 +32,7 @@ class ApiTest extends TestCase
     {
         $response = $this->withHeaders([
             'X-Header' => 'test',
-        ])->json('POST', '/api/store', ['longurl' => 'non url data']);
+        ])->json('POST', '/api/urls', ['longurl' => 'non url data']);
 
         $response
             ->assertStatus(422)
@@ -48,7 +48,7 @@ class ApiTest extends TestCase
         $this->withoutEvents();
         $response = $this->withHeaders([
             'X-Header' => 'test',
-        ])->json('POST', '/api/store', ['longurl' => 'http://example.com']);
+        ])->json('POST', '/api/urls', ['longurl' => 'http://example.com']);
 
         $response
             ->assertStatus(200)
@@ -67,7 +67,7 @@ class ApiTest extends TestCase
         // When sending an api call with correct fields
         $this->withHeaders([
             'X-Header' => 'test',
-        ])->json('POST', '/api/store', ['longurl' => 'http://example.com']);
+        ])->json('POST', '/api/urls', ['longurl' => 'http://example.com']);
 
         // Then urls table should contain one record
         $this->assertEquals(1, Url::count());
