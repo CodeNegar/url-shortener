@@ -28,9 +28,9 @@ URL Shortener provides an API interface with the following resources:
 
 http method | url | description | status
 ------------|-----|----------|------------
-POST | /api/urls | Create a new short URL | TODO
-GET | /api/urls | Get list of latest short URLs | TODO
+POST | /api/urls | Create a new short URL | Done
+GET | /api/urls | Get list of latest short URLs | Done
+GET | /api/urls/{url_id}/stats | Get statistics  of a specific short URL | Done
+GET | /api/urls/{url_id} | Get details of a specific short URL | TODO
 PUT | /api/urls/{url_id} | Update a specific short URL | TODO
 DELETE | /api/urls/{url_id} | Delete a specific short URL | TODO
-GET | /api/urls/{url_id} | Get details of a specific short URL | TODO
-GET | /api/urls/{url_id}/stats | Get statistics  of a specific short URL | TODO
