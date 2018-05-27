@@ -103,4 +103,21 @@ class ApiTest extends TestCase
         // Then it should return not found response (404)
         $response->assertStatus(404);
     }
+
+    /** @test */
+
+    public function it_should_return_list_of_short_urls_when_index_api_is_requested()
+    {
+        // Given the urls table has 3 records
+        $rows = factory(\App\Url::class, 3)->create();
+        $rows->toArray();
+
+        // When list of short urls is requested
+        $response = $this->json('GET', '/api/urls');
+
+        // Then it should return 3 items
+        $response
+            ->assertStatus(200)
+            ->assertJsonCount(3);
+    }
 }
