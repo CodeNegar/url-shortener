@@ -1,41 +1,61 @@
-jQuery(document).ready(function($) {
+Vue.component('url-shortener-form',{
 
-	$('.form-shorten').on('click', '#button-shorten', function(event) {
-		event.preventDefault();
-		// Cache selectors
-		var $input_shorten = $('#input-shorten');
-		var $button_shorten = $(this);
-		var $response_shorten = $('#response-shorten');
+    template: `<form class="form-shorten">
+      <h1 class="h3 mb-3 font-weight-normal">Please Enter your URL</h1>
+      <label for="input-shorten" class="sr-only">Long URL</label>
+      <input type="url" class="form-control mb-3" placeholder="http://" name="input-shorten" id="input-shorten" :readonly="is_loading" v-model="longurl" required autofocus>
+      <button :class="{ 'progress-bar-striped progress-bar-animated': is_loading }" :disabled="is_loading" class="btn btn-lg btn-primary btn-block mb-3" id="button-shorten" v-on:click="clickHandler" type="submit">Shorten</button>
+      <div id="response-shorten" class="alert alert-primary" :class="{'alert-success': is_error == false, 'alert-danger': is_error == true }" v-show="results.length" role="alert" v-html="results"></div>
+    </form>`,
 
-		// Add loading state to the form
-		$button_shorten.addClass('progress-bar-striped progress-bar-animated');
-		$button_shorten.prop('disabled', true)
-		$input_shorten.prop('readonly', true);
-		$response_shorten.fadeOut('fast');
+    data(){
+        return {
+            longurl: '',
+            is_error: false,
+            is_loading: false,
+            results: '',
+        };
+    },
 
-		$.ajax({
-			url: 'api/urls',
-			type: 'POST',
-			dataType: 'json',
-			data: {
-				longurl: $input_shorten.val()
-			},
-		})
-		.done(function(res) {
-			$input_shorten.val('');
-			$response_shorten.html(res.message + '<br>' + res.data.short_url + '<br>' + res.data.stats).fadeIn();
-		})
-		.fail(function(xhr, status, error) {
-			var res = JSON.parse(xhr.responseText);
-            $response_shorten.html(res.message).fadeIn('fast');
-		})
-		.always(function() {
-			// Remove loading state from the form
-			$button_shorten.removeClass('progress-bar-striped progress-bar-animated');
-			$button_shorten.prop('disabled', false)
-			$input_shorten.prop('readonly', false);
-		});
-		
-	});
+    methods:{
+        clickHandler(e) {
+            e.preventDefault();
+            this.reset_state();
+            this.is_loading = true;
+            axios.post('api/urls', {
+                longurl: this.longurl
+            })
+            .then(res => {
+                console.log(res);
+                this.is_error = false;
+                this.longurl = '';
+                this.is_loading = false;
+                this.results = res.data.message + '<br>' + res.data.data.short_url + '<br>' + res.data.data.stats;
+            })
+            .catch(error => {
+                this.is_error = true;
+                this.is_loading = false;
+                this.results = error.response.data.message;
+            });
+        },
+
+        reset_state(){
+            this.is_error = false;
+            this.results = '';
+        }
+    }
+
+});
+
+let UrlShortener = new Vue({
+	el: '#app',
+	data: {
+
+    },
+
+	mounted(){
+	    // todo: get latest shortened links
+	},
+
 
 });
