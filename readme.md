@@ -1,6 +1,6 @@
 ## URL shortener
 
-Yet another URL shortener, this time using Laravel.
+Yet another URL shortener, this time API driven using Laravel + Bootstrap + Vue.js
 
 ## Requirements
 
