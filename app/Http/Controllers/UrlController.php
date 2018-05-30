@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\UrlWasCreated;
 use App\Events\UrlWasVisited;
 use App\Http\Requests\PrepareShortenRequest;
+use App\Option;
 use App\Url;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -122,5 +123,37 @@ class UrlController extends Controller
         }
 
         return $stats;
+    }
+
+    public function get_next_id($num = null) {
+        $chars = env('URL_SHORTENER_CHARS', '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+        $min_id = env('URL_SHORTENER_ID_MIN', 0);
+        $step = env('URL_SHORTENER_ID_STEP', 1);
+
+        if ($num == null || intval($num) <= 0) {
+            $last_id = Option::where('key', 'last_id')->first();
+            if($last_id == null){
+                $last_id = new Option([
+                    'key' => 'last_id',
+                    'value' => '0'
+                ]);
+            }
+            $num = $last_id->value ?? 0;
+            $num += max($step, 1);
+            $num = max($num, $min_id);
+            $last_id->value = $num;
+            $last_id->save();
+        }
+
+        $base = strlen($chars);
+
+        $out = "";
+        for ( $t = floor( log10( $num ) / log10( $base ) ); $t >= 0; $t-- ) {
+            $a = floor( $num / pow( $base, $t ) );
+            $out = $out . substr( $chars, $a, 1 );
+            $num = $num - ( $a * pow( $base, $t ) );
+        }
+
+        return $out;
     }
 }

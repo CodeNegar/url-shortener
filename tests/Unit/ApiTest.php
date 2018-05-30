@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Http\Controllers\UrlController;
 use App\Url;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -119,5 +120,41 @@ class ApiTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJsonCount(3);
+    }
+
+    /** @test */
+
+    public function it_should_return_encoded_number_when_next_row_id_is_requested()
+    {
+        // Given the next row id is 1 and allowed chars are defined as
+        $next_id = 761;
+        putenv('URL_SHORTENER_CHARS=0123456789abcdefghijklmnopqrstuv');
+
+        // When next id method is requested
+        $url_controller = new UrlController();
+        $encoded_number = $url_controller->get_next_id($next_id);
+
+        // Then it should return 'o' as the result
+        $this->assertEquals('np', $encoded_number);
+
+        // more scenarios
+        $next_id = 1587;
+        $encoded_number = $url_controller->get_next_id($next_id);
+        $this->assertEquals('1hj', $encoded_number);
+
+        putenv('URL_SHORTENER_CHARS=0123456789abcdefgh');
+        $next_id = 1587;
+        $encoded_number = $url_controller->get_next_id($next_id);
+        $this->assertEquals('4g3', $encoded_number);
+
+        putenv('URL_SHORTENER_CHARS=YVmgRnwkfHGhz8Cr4MW2SE50ZNspobeUPJtvuQOiKl3Aa6LDIXjF7Bc1dqxyT9');
+        $next_id = 1587;
+        $encoded_number = $url_controller->get_next_id($next_id);
+        $this->assertEquals('NQ', $encoded_number);
+
+        putenv('URL_SHORTENER_CHARS=YVmgRnwkfHGhz8Cr4MW2SE50ZNspobeUPJtvuQOiKl3Aa6LDIXjF7Bc1dqxyT9');
+        $next_id = 45687542;
+        $encoded_number = $url_controller->get_next_id($next_id);
+        $this->assertEquals('gnAN7', $encoded_number);
     }
 }
