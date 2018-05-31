@@ -22,6 +22,30 @@ php artisan key:generate
 php artisan migrate
 php artisan serve
 ```
+## Setting up characters for short URL IDs
+By default short URLs IDs will be chosen from the following list:
+
+> 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+You can use your customized list of characters (only numeric, only lowercase, only alphabet, only 0 and 1 like binary,...) by assigning it to an Environment variable called:
+
+> URL_SHORTENER_CHARS
+
+You may scramble the characters to make it hard to guess next, previous and count of shortened links. For example:
+
+> URL_SHORTENER_CHARS=wkfHGhz8Cr4MW2SE50QOiKl3Aa6LDIXjF7Bc1dqxyT9
+
+Any combination is acceptable, just make sure there is no duplicate character in your list and don't modify once short URLs are created.
+
+You may force the ID counter to start from a particular number (default is 1) by setting another environment variable called:
+
+> URL_SHORTENER_ID_MIN=1000
+
+You may force the ID counter step to any particular amount (default is 1) by setting another environment variable called:
+
+> URL_SHORTENER_ID_STEP=5
+
+
 ## RESTful API Interface
 
 URL Shortener provides an API interface with the following resources:
