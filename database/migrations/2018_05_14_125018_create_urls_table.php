@@ -14,7 +14,7 @@ class CreateUrlsTable extends Migration
     public function up()
     {
         Schema::create('urls', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('id', 50)->unique();
             $table->string('url', 200);
             $table->string('title', 50)->nullable();
             $table->integer('hits')->unsigned()->default(0);

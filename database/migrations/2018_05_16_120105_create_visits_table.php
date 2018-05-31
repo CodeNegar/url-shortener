@@ -16,7 +16,7 @@ class CreateVisitsTable extends Migration
         Schema::create('visits', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('url_id')->unsigned()->index('url_id');
+            $table->string('url_id', 50)->index();
             $table->string('os', 25)->nullable();
             $table->string('client_type', 25)->nullable(); // e.g browser, feedreader
             $table->string('client_name', 25)->nullable(); // e.g Firefox, Greader
