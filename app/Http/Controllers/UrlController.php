@@ -40,6 +40,7 @@ class UrlController extends Controller
     public function store(PrepareShortenRequest $request)
     {
         $url = new Url();
+        $url->id = $this->get_next_id();
         $url->url = $request->longurl;
         $url->save();
 
