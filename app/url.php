@@ -26,4 +26,14 @@ class Url extends Model
     {
         return $this->hasMany('App\Visit');
     }
+
+    /**
+     * Set the short_url mutator field.
+     *
+     * @return void
+     */
+    public function getShort_UrlAttribute()
+    {
+        $this->attributes['short_url'] = route('go', $this->id);
+    }
 }
