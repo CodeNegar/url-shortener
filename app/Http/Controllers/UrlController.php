@@ -49,7 +49,7 @@ class UrlController extends Controller
         return [
             'message' => 'URL successfuly shortened.',
             'data'   => [
-                'short_url' => route('go', $url->id),
+                'short_url' => $url->short_url,
                 'stats' => route('stats', $url->id)
             ]
         ];
