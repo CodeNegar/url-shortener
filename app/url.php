@@ -11,6 +11,8 @@ class Url extends Model
      */
     public $incrementing = false;
 
+    protected $appends = ['short_url'];
+
     /**
      * List of allowed fields for filling
      */
@@ -32,8 +34,8 @@ class Url extends Model
      *
      * @return void
      */
-    public function getShort_UrlAttribute()
+    public function getShortUrlAttribute()
     {
-        $this->attributes['short_url'] = route('go', $this->id);
+        return route('go', $this->id);
     }
 }
