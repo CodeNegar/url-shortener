@@ -56,12 +56,12 @@ class UrlController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Redirect to the specified resource.
      *
      * @param  \App\Url  $url
      * @return \Illuminate\Http\Response
      */
-    public function show(Url $url, Request $request)
+    public function go(Url $url, Request $request)
     {
         event(new UrlWasVisited($url, $request));
         return Redirect::away($url->url);
