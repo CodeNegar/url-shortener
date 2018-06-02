@@ -58,6 +58,23 @@ class ApiTest extends TestCase
             ]);
     }
 
+
+    /** @test */
+
+    public function it_should_return_short_url_key_with_value_when_shortening_a_url()
+    {
+        $this->withoutEvents();
+        $response = $this->withHeaders([
+            'X-Header' => 'test',
+        ])->json('POST', '/api/urls', ['longurl' => 'http://example.com']);
+
+        $response_array = $response->original;
+
+        $this->assertArrayHasKey('data', $response_array);
+        $this->assertArrayHasKey('short_url', $response_array['data']);
+        $this->assertNotEmpty($response_array['data']['short_url']);
+    }
+
     /** @test */
 
     public function it_should_create_a_db_record_when_longurl_parameter_contains_a_valid_url()

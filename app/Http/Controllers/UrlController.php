@@ -23,10 +23,6 @@ class UrlController extends Controller
     {
         // todo: cache the results
         $urls = Url::take(10)->get(['id', 'hits', 'title', 'created_at']);
-        foreach ($urls as $url){
-            $url->short_url = route('go', $url->id);
-            unset($url->id);
-        }
 
         return $urls;
     }
