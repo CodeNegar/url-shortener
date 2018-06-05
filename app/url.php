@@ -22,6 +22,14 @@ class Url extends Model
     ];
 
     /**
+     * List of allowed fields for filling
+     */
+    protected $hidden = [
+        'id',
+        'url'
+    ];
+
+    /**
      * Get the visits for the current url.
      */
     public function visits()
