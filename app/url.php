@@ -26,7 +26,8 @@ class Url extends Model
      */
     protected $hidden = [
         'id',
-        'url'
+        'url',
+        'updated_at'
     ];
 
     /**
