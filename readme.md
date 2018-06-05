@@ -55,6 +55,6 @@ http method | url | description | status
 POST | /api/urls | Create a new short URL | Done
 GET | /api/urls | Get list of latest short URLs | Done
 GET | /api/urls/{url_id}/stats | Get statistics  of a specific short URL | Done
-GET | /api/urls/{url_id} | Get details of a specific short URL | TODO
+GET | /api/urls/{url_id} | Get details of a specific short URL | Done
 PUT | /api/urls/{url_id} | Update a specific short URL | TODO
 DELETE | /api/urls/{url_id} | Delete a specific short URL | TODO
