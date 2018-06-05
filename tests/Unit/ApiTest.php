@@ -174,4 +174,28 @@ class ApiTest extends TestCase
         $encoded_number = $url_controller->get_next_id($next_id);
         $this->assertEquals('gnAN7', $encoded_number);
     }
+
+
+    /** @test */
+
+    public function it_should_return_single_url_details_including_hidden_long_url_when_single_url_api_is_requested()
+    {
+        // Given the urls table has a record
+        $row = factory(\App\Url::class)->create();
+        $row->toArray();
+
+        // When details of that short url is requested
+        $response = $this->json('GET', '/api/urls/' . $row->id);
+
+        // Then it should return a json containing details
+        $response->assertStatus(200);
+
+        $response_arr = json_decode($response->content(), true);
+        $this->assertArrayHasKey('short_url', $response_arr);
+        $this->assertArrayHasKey('hits', $response_arr);
+        $this->assertArrayHasKey('url', $response_arr);
+        $this->assertNotEmpty($response_arr['url']);
+        $this->assertNotEmpty($response_arr['short_url']);
+
+    }
 }

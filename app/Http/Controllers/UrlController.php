@@ -64,6 +64,17 @@ class UrlController extends Controller
     }
 
     /**
+     * Get details of a specific short URL.
+     *
+     * @param  \App\Url  $url
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Url $url)
+    {
+        return $url->makeVisible('url');
+    }
+
+    /**
      * Show the stats for requested resource.
      *
      * @param  \App\Url  $url
