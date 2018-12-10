@@ -8,7 +8,7 @@ before_script:
   - cp .env.travis .env
   - composer install --no-interaction
   - php artisan key:generate
-  - php artisan jwt:secret
+  - php artisan jwt:secret --quiet
   - touch storage/database_testing.sqlite
   - php artisan migrate
 
