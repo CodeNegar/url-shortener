@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/CodeNegar/url-shortener.svg?branch=master)](https://travis-ci.com/CodeNegar/url-shortener)
 ## URL shortener
 
 Yet another URL shortener, this time API driven using Laravel + Bootstrap + Vue.js
