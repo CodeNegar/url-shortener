@@ -19,7 +19,10 @@ Download and copy [MaxMind](https://geolite.maxmind.com/download/geoip/database/
 git clone https://github.com/CodeNegar/url-shortener.git
 cd url-shortener && composer install
 php artisan key:generate
-php artisan jwt:generate
+php artisan jwt:secret
+```
+Set envioment variables (e.g. database connection,...)
+```
 php artisan migrate
 php artisan serve
 ```
