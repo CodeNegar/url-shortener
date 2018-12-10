@@ -13,9 +13,9 @@ Route::get('/urls/{url}/stats', 'UrlController@stats');
 Route::get('/urls/{url}', 'UrlController@show');
 
 // Health check
-Route::get('/test', function(){
+Route::get('/test', function () {
     return [
         'status'   => 'success',
-        'data'     => 'API is working correctly'
+        'data'     => 'API is working correctly',
     ];
 });

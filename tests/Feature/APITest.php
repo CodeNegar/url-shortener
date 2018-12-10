@@ -3,9 +3,8 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class WelcomeTest extends TestCase
+class APITest extends TestCase
 {
     /**
      * A basic test example.

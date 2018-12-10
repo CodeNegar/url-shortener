@@ -30,7 +30,8 @@ class UrlController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\PrepareShortenRequest  $request
+     * @param \App\Http\Requests\PrepareShortenRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(PrepareShortenRequest $request)
@@ -44,29 +45,32 @@ class UrlController extends Controller
 
         return [
             'message' => 'URL successfuly shortened.',
-            'data'   => [
+            'data'    => [
                 'short_url' => $url->short_url,
-                'stats' => route('stats', $url->id)
-            ]
+                'stats'     => route('stats', $url->id),
+            ],
         ];
     }
 
     /**
      * Redirect to the specified resource.
      *
-     * @param  \App\Url  $url
+     * @param \App\Url $url
+     *
      * @return \Illuminate\Http\Response
      */
     public function go(Url $url, Request $request)
     {
         event(new UrlWasVisited($url, $request));
+
         return Redirect::away($url->url);
     }
 
     /**
      * Get details of a specific short URL.
      *
-     * @param  \App\Url  $url
+     * @param \App\Url $url
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Url $url)
@@ -77,17 +81,18 @@ class UrlController extends Controller
     /**
      * Show the stats for requested resource.
      *
-     * @param  \App\Url  $url
+     * @param \App\Url $url
+     *
      * @return \Illuminate\Http\Response
      */
     public function stats(Url $url)
     {
         // todo: cache results and create rollup tables
         $periods = [
-            'day' => Carbon::now()->startOfDay(),
-            'week' => Carbon::now()->startOfWeek(),
+            'day'   => Carbon::now()->startOfDay(),
+            'week'  => Carbon::now()->startOfWeek(),
             'month' => Carbon::now()->startOfMonth(),
-            'all' => Carbon::now()->startOfCentury(),
+            'all'   => Carbon::now()->startOfCentury(),
         ];
 
         $metrics = [
@@ -97,7 +102,7 @@ class UrlController extends Controller
             'device',
             'referrer',
             'country',
-            'is_bot'
+            'is_bot',
         ];
 
         $stats = [];
@@ -118,7 +123,7 @@ class UrlController extends Controller
                     ->orderBy('count', 'desc')
                     ->take(10)
                     ->where('created_at', '>=', $period_value)
-                    ->get([$metric, DB::raw("count(*) as count")]);
+                    ->get([$metric, DB::raw('count(*) as count')]);
                 $os_list = [];
                 foreach ($metric_rows as $metric_row) {
                     $key = empty($metric_row[$metric]) ? 'unknown' : $metric_row[$metric];
@@ -133,17 +138,18 @@ class UrlController extends Controller
         return $stats;
     }
 
-    public function get_next_id($num = null) {
+    public function get_next_id($num = null)
+    {
         $chars = env('URL_SHORTENER_CHARS', '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
         $min_id = env('URL_SHORTENER_ID_MIN', 0);
         $step = env('URL_SHORTENER_ID_STEP', 1);
 
         if ($num == null || intval($num) <= 0) {
             $last_id = Option::where('key', 'last_id')->first();
-            if($last_id == null){
+            if ($last_id == null) {
                 $last_id = new Option([
-                    'key' => 'last_id',
-                    'value' => '0'
+                    'key'   => 'last_id',
+                    'value' => '0',
                 ]);
             }
             $num = $last_id->value ?? 0;
@@ -155,11 +161,11 @@ class UrlController extends Controller
 
         $base = strlen($chars);
 
-        $out = "";
-        for ( $t = floor( log10( $num ) / log10( $base ) ); $t >= 0; $t-- ) {
-            $a = floor( $num / pow( $base, $t ) );
-            $out = $out . substr( $chars, $a, 1 );
-            $num = $num - ( $a * pow( $base, $t ) );
+        $out = '';
+        for ($t = floor(log10($num) / log10($base)); $t >= 0; $t--) {
+            $a = floor($num / pow($base, $t));
+            $out = $out.substr($chars, $a, 1);
+            $num = $num - ($a * pow($base, $t));
         }
 
         return $out;

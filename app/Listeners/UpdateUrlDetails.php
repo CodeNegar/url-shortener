@@ -3,14 +3,11 @@
 namespace App\Listeners;
 
 use App\Events\UrlWasCreated;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use \DOMDocument;
-use \DOMXPath;
+use DOMDocument;
+use DOMXPath;
 
 class UpdateUrlDetails
 {
-
     /**
      * Create the event listener.
      *
@@ -24,7 +21,8 @@ class UpdateUrlDetails
     /**
      * Handle the event.
      *
-     * @param  UrlWasCreated  $event
+     * @param UrlWasCreated $event
+     *
      * @return void
      */
     public function handle(UrlWasCreated $event)
@@ -32,7 +30,8 @@ class UpdateUrlDetails
         // todo: queue the event to speedup url shortening
         // todo: take proper action when the remote doc is not html or it's large
         $long_url = $event->url->url;
-        $title = 'New url ' . $event->url->id;
+        $title = 'New url '.$event->url->id;
+
         try {
             $doc = new DOMDocument();
             $contents = $this->get_url($long_url);
@@ -49,11 +48,12 @@ class UpdateUrlDetails
         $event->url->save();
     }
 
-    public function get_url($url){
+    public function get_url($url)
+    {
         $client = new \GuzzleHttp\Client();
         $res = $client->request('GET', $url);
         $remote_doc = $res->getBody();
 
-        return 'here:' . $remote_doc;
+        return 'here:'.$remote_doc;
     }
 }

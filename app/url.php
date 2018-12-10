@@ -4,30 +4,30 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Url extends Model
+class url extends Model
 {
     /**
-     * ID field is not an auto increment int
+     * ID field is not an auto increment int.
      */
     public $incrementing = false;
 
     protected $appends = ['short_url'];
 
     /**
-     * List of allowed fields for filling
+     * List of allowed fields for filling.
      */
     protected $fillable = [
         'id',
-        'url'
+        'url',
     ];
 
     /**
-     * List of allowed fields for filling
+     * List of allowed fields for filling.
      */
     protected $hidden = [
         'id',
         'url',
-        'updated_at'
+        'updated_at',
     ];
 
     /**

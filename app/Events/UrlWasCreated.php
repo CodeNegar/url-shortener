@@ -4,12 +4,10 @@ namespace App\Events;
 
 use App\Url;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class UrlWasCreated
 {
@@ -20,7 +18,8 @@ class UrlWasCreated
     /**
      * Create a new event instance.
      *
-     * @param  \App\Url  $url
+     * @param \App\Url $url
+     *
      * @return void
      */
     public function __construct(Url $url)

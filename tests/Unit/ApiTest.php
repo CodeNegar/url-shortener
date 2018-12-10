@@ -6,14 +6,12 @@ use App\Http\Controllers\UrlController;
 use App\Url;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ApiTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-
     public function it_should_return_error_when_longurl_parameter_doesnt_exist()
     {
         $response = $this->withHeaders([
@@ -23,12 +21,11 @@ class ApiTest extends TestCase
         $response
             ->assertStatus(422)
             ->assertJson([
-                'message' => 'The given data was invalid.'
+                'message' => 'The given data was invalid.',
             ]);
     }
 
     /** @test */
-
     public function it_should_return_error_when_longurl_parameter_is_not_a_valid_url()
     {
         $response = $this->withHeaders([
@@ -38,12 +35,11 @@ class ApiTest extends TestCase
         $response
             ->assertStatus(422)
             ->assertJson([
-                'message' => 'The given data was invalid.'
+                'message' => 'The given data was invalid.',
             ]);
     }
 
     /** @test */
-
     public function it_should_return_ok_when_longurl_parameter_contains_a_valid_url()
     {
         $this->withoutEvents();
@@ -54,13 +50,11 @@ class ApiTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson([
-                'message' => 'URL successfuly shortened.'
+                'message' => 'URL successfuly shortened.',
             ]);
     }
 
-
     /** @test */
-
     public function it_should_return_short_url_key_with_value_when_shortening_a_url()
     {
         $this->withoutEvents();
@@ -76,7 +70,6 @@ class ApiTest extends TestCase
     }
 
     /** @test */
-
     public function it_should_create_a_db_record_when_longurl_parameter_contains_a_valid_url()
     {
         // Given the urls table is empty
@@ -92,7 +85,6 @@ class ApiTest extends TestCase
     }
 
     /** @test */
-
     public function it_should_return_redirect_response_when_a_short_url_is_accessed()
     {
         // Given the urls table has a record
@@ -108,7 +100,6 @@ class ApiTest extends TestCase
     }
 
     /** @test */
-
     public function it_should_return_not_found_response_when_a_short_url_with_bad_id_is_accessed()
     {
         // Given the urls table has no record
@@ -123,7 +114,6 @@ class ApiTest extends TestCase
     }
 
     /** @test */
-
     public function it_should_return_list_of_short_urls_when_index_api_is_requested()
     {
         // Given the urls table has 3 records
@@ -140,7 +130,6 @@ class ApiTest extends TestCase
     }
 
     /** @test */
-
     public function it_should_return_encoded_number_when_next_row_id_is_requested()
     {
         // Given the next row id is 1 and allowed chars are defined as
@@ -175,9 +164,7 @@ class ApiTest extends TestCase
         $this->assertEquals('gnAN7', $encoded_number);
     }
 
-
     /** @test */
-
     public function it_should_return_single_url_details_including_hidden_long_url_when_single_url_api_is_requested()
     {
         // Given the urls table has a record
@@ -185,7 +172,7 @@ class ApiTest extends TestCase
         $row->toArray();
 
         // When details of that short url is requested
-        $response = $this->json('GET', '/api/urls/' . $row->id);
+        $response = $this->json('GET', '/api/urls/'.$row->id);
 
         // Then it should return a json containing details
         $response->assertStatus(200);
@@ -196,6 +183,5 @@ class ApiTest extends TestCase
         $this->assertArrayHasKey('url', $response_arr);
         $this->assertNotEmpty($response_arr['url']);
         $this->assertNotEmpty($response_arr['short_url']);
-
     }
 }

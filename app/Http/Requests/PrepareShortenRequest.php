@@ -24,7 +24,7 @@ class PrepareShortenRequest extends FormRequest
     public function rules()
     {
         return [
-            'longurl' => 'required|url'
+            'longurl' => 'required|url',
         ];
     }
 }
