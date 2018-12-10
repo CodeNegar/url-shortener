@@ -9,7 +9,7 @@ before_script:
   - composer install --no-interaction
   - php artisan key:generate
   - php artisan jwt:secret --quiet
-  - touch storage/database_testing.sqlite
+  - touch database/database_testing.sqlite
   - php artisan migrate
 
 cache:
