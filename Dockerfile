@@ -6,9 +6,7 @@ Run apt-get install git libcurl4-gnutls-dev libicu-dev libmcrypt-dev libvpx-dev 
 
 Run docker-php-ext-install mbstring pdo_mysql curl json intl gd xml zip bz2 opcache
 
-COPY /public /var/www/html/
-COPY / /var/www/
-
-RUN chown -R www-data:www-data /var/www/
+COPY --chown=www-data:www-data /public /var/www/html/
+COPY --chown=www-data:www-data / /var/www/
 
 EXPOSE 80
